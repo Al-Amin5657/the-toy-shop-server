@@ -64,6 +64,13 @@ async function run() {
             res.send(result);
         })
 
+        app.post('/categories', async (req, res) => {
+            const myCategory = req.body;
+            console.log(myCategory);
+            const result = await categoriesCollection.insertOne(myCategory);
+            res.send(result);
+        })
+
         app.patch('/myToys/:id', async (req, res) => {
             const id = req.params.id;
             const filter = { _id: new ObjectId(id) }
