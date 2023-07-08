@@ -6,7 +6,15 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // middleware
+// const corsOptions = {
+//     origin: '*',
+//     credentials: true,
+//     optionSuccessStatus: 200,
+// }
+
+// app.use(cors(corsOptions))
 app.use(cors())
+
 app.use(express.json())
 
 app.get('/', (req, res) => {
@@ -28,7 +36,7 @@ const client = new MongoClient(uri, {
 async function run() {
     try {
         // Connect the client to the server	(optional starting in v4.7)
-        await client.connect();
+        client.connect();
 
         const productsCollection = client.db('toyShop').collection('products');
         const addedToysCollection = client.db('toyShop').collection('myToys');
@@ -55,6 +63,7 @@ async function run() {
             }
             const result = await addedToysCollection.find(query).toArray();
             res.send(result);
+            console.log(result);
         })
 
         app.post('/myToys', async (req, res) => {
